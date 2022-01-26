@@ -144,7 +144,6 @@ class CRUD:
 
         except RuntimeError:
             return False
-        #print(self.groups_data)
         # Success
         return self.modify_groups_file(self.groups_data)
 
@@ -270,7 +269,6 @@ class CRUD:
         if field not in self.users_data[user_id]:
             return False
 
-        print("OK")
         try:
             # Update data
             if field == "name":
@@ -392,7 +390,6 @@ class CRUD:
 
         except RuntimeError:
             return False
-        print('2')
         return self.modify_groups_file(self.groups_data)
 
     ##***********DELETE***********************
@@ -431,7 +428,7 @@ class CRUD:
         # Check existence       
         if user_id not in self.users_data:
             return False 
-        
+
         try:
             # Get names 
             user_name = self.get_user_data(user_id, "name")
