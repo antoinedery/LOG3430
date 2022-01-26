@@ -451,7 +451,7 @@ class TestCRUD(unittest.TestCase):
 
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
-    def test_update_users_Returns_false_for_invalid_Group(
+    def test_update_users_Returns_false_for_invalid_GroupList(
             self, mock_read_users_file, mock_modify_groups_file
     ):
         mock_read_users_file.return_value = self.users_data
