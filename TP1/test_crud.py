@@ -52,14 +52,6 @@ class TestCRUD(unittest.TestCase):
     def test_add_new_user_Passes_correct_data_to_modify_users_file(
             self, mock_modify_users_file, mock_modify_groups_file, mock_read_users_file
     ):
-        """Description: il faut utiliser les mocks des fonctions "read_users_file",
-        "modify_users_file" pour tester que l'information a ajouter pour l'utilisateur a été formée correctement
-        par la fonction, e.g. self.modify_users_file(data) -> "data" doit avoir un format et contenu expecté
-        il faut utiliser ".assert_called_once_with(expected_data)"
-
-        Note: Ce test a deja ete complete pour vous
-        """
-
         # Ici on mock pour que read_users_file retourne la liste d'utilisateurs
         mock_read_users_file.return_value = self.users_data
 
@@ -92,12 +84,6 @@ class TestCRUD(unittest.TestCase):
     def test_add_new_group_Passes_correct_data_to_modify_groups_file(
             self, mock_modify_groups_file, mock_read_groups_file, mock_read_users_file
     ):
-        """Description: il faut utiliser les mocks des fonctions "read_groups_file",
-        "modify_groups_file" (ou selon votre realisation) pour tester que
-        l'information a ajouter pour le groupe a été formée correctement par la fonction e.g.
-        self.modify_groups_file(data) -> "data" doit avoir un format et contenu attendu
-        il faut utiliser ".assert_called_once_with(expected_data)"
-        """
         # Ici on mock pour que read_group_file retourne la liste d'utilisateurs du groupe
         name  = "test"
         self.users_data["1"]["Groups"].append(name)
@@ -124,11 +110,6 @@ class TestCRUD(unittest.TestCase):
 
     @patch("crud.CRUD.read_users_file")
     def test_get_user_data_Returns_false_for_invalid_id(self, mock_read_users_file):
-        """Description: il faut utiliser le mock de fonction "read_users_file",
-        (ou selon votre realisation) pour tester que false (ou bien une exception)
-        est retourne par la fonction si ID non-existant est utilisé
-        il faut utiliser ".assertEqual()" ou ".assertFalse()"
-        """
         mock_read_users_file.return_value = self.users_data
 
         crud = CRUD()
@@ -136,11 +117,6 @@ class TestCRUD(unittest.TestCase):
 
     @patch("crud.CRUD.read_users_file")
     def test_get_user_data_Returns_false_for_invalid_field(self, mock_read_users_file):
-        """Description: il faut utiliser le mock de fonction "read_groups_file",
-        (ou selon votre realisation) pour tester que false (ou bien une exception)
-        est retourne par la fonction si champ non-existant est utilisé
-        il faut utiliser ".assertEqual()" ou ".assertFalse()"
-        """
         mock_read_users_file.return_value = self.users_data
 
         crud = CRUD()
@@ -150,11 +126,6 @@ class TestCRUD(unittest.TestCase):
     def test_get_user_data_Returns_correct_value_if_field_and_id_are_valid(
             self, mock_read_users_file
     ):
-        """Description: il faut utiliser le mock de fonction "read_groups_file",
-        (ou selon votre realisation) pour tester que une bonne valeur est fournie
-        si champ et id valide sont utilises
-        il faut utiliser ".assertEqual()""
-        """
         mock_read_users_file.return_value = self.users_data
 
         crud = CRUD()
@@ -162,9 +133,6 @@ class TestCRUD(unittest.TestCase):
 
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_data_Returns_false_for_invalid_id(self, mock_read_groups_file):
-        """
-        Similaire au test_get_user_data_Returns_false_for_invalid_id mais pour un groupe
-        """ 
         mock_read_groups_file.return_value = self.groups_data
 
         crud = CRUD()
@@ -174,9 +142,6 @@ class TestCRUD(unittest.TestCase):
     def test_get_group_data_Returns_false_for_invalid_field(
             self, mock_read_groups_file
     ):
-        """
-        Similaire au test_get_user_data_Returns_false_for_invalid_field mais pour un groupe
-        """
         mock_read_groups_file.return_value = self.groups_data
 
         crud = CRUD()
@@ -186,9 +151,6 @@ class TestCRUD(unittest.TestCase):
     def test_get_group_data_Returns_correct_value_if_field_and_id_are_valid(
             self, mock_read_groups_file
     ):
-        """
-        Similaire au test_get_user_data_Returns_correct_value_if_field_and_id_are_valid mais pour un groupe
-        """
         mock_read_groups_file.return_value = self.groups_data
 
         crud = CRUD()
@@ -230,9 +192,6 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_false_for_invalid_id(
             self, mock_read_users_file
     ):
-        """Il faut utiliser les mocks pour 'read_users_file' et 'modify_users_file'
-        (ou selon votre realisation)
-        """
         mock_read_users_file.return_value = self.users_data
 
         crud = CRUD()
@@ -242,9 +201,6 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_false_for_invalid_field(
             self, mock_read_users_file
     ):
-        """Il faut utiliser les mocks pour 'read_users_file' et 'modify_users_file'
-        (ou selon votre realisation)
-        """
         mock_read_users_file.return_value = self.users_data
         
         crud = CRUD()
@@ -255,10 +211,6 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Passes_correct_data_to_modify_users_file(
             self, mock_read_users_file, mock_modify_users_file
     ):
-        """Il faut utiliser les mocks pour 'read_users_file' et 'modify_users_file'
-        (ou selon votre realisation)
-        Il faut utiliser ".assert_called_once_with(expected_data)"
-        """
         mock_read_users_file.return_value = self.users_data
 
         name = "test@gmail.com"
@@ -276,9 +228,6 @@ class TestCRUD(unittest.TestCase):
     def test_update_groups_Returns_false_for_invalid_id(
             self, mock_read_groups_file
     ):
-        """Il faut utiliser les mocks pour 'read_groups_file' et 'modify_groups_file'
-        (ou selon votre realisation)
-        """
         mock_read_groups_file.return_value = self.groups_data
         
         crud = CRUD()
@@ -288,9 +237,6 @@ class TestCRUD(unittest.TestCase):
     def test_update_groups_Returns_false_for_invalid_field(
             self, mock_read_groups_file
     ):
-        """Il faut utiliser les mocks pour 'read_groups_file' et 'modify_groups_file'
-        (ou selon votre realisation)
-        """
         mock_read_groups_file.return_value = self.groups_data
         
         crud = CRUD()
@@ -301,10 +247,6 @@ class TestCRUD(unittest.TestCase):
     def test_update_groups_Passes_correct_data_to_modify_groups_file(
             self, mock_read_groups_file, mock_modify_groups_file
     ):
-        """Il faut utiliser les mocks pour 'read_groups_file' et 'modify_groups_file'
-        (ou selon votre realisation)
-        Il faut utiliser ".assert_called_once_with(expected_data)"
-        """
         mock_read_groups_file.return_value = self.groups_data
         
         name = "test"
@@ -433,7 +375,6 @@ class TestCRUD(unittest.TestCase):
     ###########################################
     #               CUSTOM TEST               #
     ###########################################
-
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_name(
             self, mock_read_users_file
