@@ -392,7 +392,7 @@ class CRUD:
 
         except RuntimeError:
             return False
-
+        print('2')
         return self.modify_groups_file(self.groups_data)
 
     ##***********DELETE***********************
