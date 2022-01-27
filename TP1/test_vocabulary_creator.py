@@ -4,12 +4,31 @@ from unittest.mock import patch
 
 class TestVocabularyCreator(unittest.TestCase):
     def setUp(self):
-        self.mails = {}  # données pour mocker "return_value" du "load_dict"
-        self.clean_subject_spam = []  # données pour mocker "return_value" du "clean_text"
-        self.clean_body_spam = []  # données pour mocker "return_value" du "clean_text"
-        self.clean_subject_ham = []  # données pour mocker "return_value" du "clean_text"
-        self.clean_body_ham = []  # données pour mocker "return_value" du "clean_text"
-        self.vocab_expected = {}  # vocabulaire avec les valeurs de la probabilité calculées correctement
+        self.mails = {
+            "dataset": [
+                {
+                "mail": {
+                    "Subject": "LOG3430 - TP1",
+                    "From": "charges-log3430@polymtl.ca",
+                    "Date": "2022-01-27",
+                    "Body": "Le TP1 est disponible sur Moodle.",
+                    "Spam": "false",
+                    "File": "enronds//enron4/spam/4536.2005-03-04.GP.spam.txt"
+                }
+                },
+                {
+                "mail": {
+                    "Subject": "[poly-communaute]  LOG3430 PAVILLON J.-A. BOMBARDIER_Avis d'interruption_Ventilation",
+                    "From": "sdi@polymtl.ca",
+                    "Date": "2022-01-27",
+                    "Body": "Aucun étudiant étudiant ne va lire ce courriel.",
+                    "Spam": "true",
+                    "File": "enronds//enron4/spam/0559.2004-03-09.GP.spam.txt"
+                }
+            }]
+        } # données pour mocker "return_value" du "load_dict"
+        self.clean_subject_spam = ['log','log']  # données pour mocker "return_value" du "clean_text"
+        self.vocab_expected = {'p_sub_spam': {'log': 1.0}, 'p_sub_ham': {'log': 1.0}, 'p_body_spam': {'log': 1.0}, 'p_body_ham': {'log': 1.0}}  # vocabulaire avec les valeurs de la probabilité calculées correctement
 
     def tearDown(self):
         pass
@@ -30,7 +49,14 @@ class TestVocabularyCreator(unittest.TestCase):
          d'écrire au fichier "vocabulary.json".
          if faut utiliser self.assertEqual(appel_a_create_vocab(), self.vocab_expected)
         """
-        pass
+        mock_load_dict.return_value = self.mails
+        # def side_effect(self):
+        #     return self.clean_subject_spam.pop()
+        # mock_clean_text.side_effect = side_effect
+        mock_clean_text.return_value = self.clean_subject_spam
+        mock_write_data_to_vocab_file.return_value = True
+        vocabCreator = VocabularyCreator()
+        self.assertEqual(vocabCreator.create_vocab(), self.vocab_expected)
     
     ###########################################
     #               CUSTOM TEST               #

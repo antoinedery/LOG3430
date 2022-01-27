@@ -4,7 +4,7 @@ from renege import RENEGE
 from email_analyzer import EmailAnalyzer
 
 
-def evaluate():
+def evaluate(): #pragma: no cover
     tp = 0
     tn = 0
     fp = 0

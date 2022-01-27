@@ -22,7 +22,6 @@ class EmailAnalyzer:
         # Clean email's subject and body
         email_subject = self.clean_text(subject_orig)
         email_body    = self.clean_text(body_orig)
-
         # Get the spam/ham probabilities
         p_subject_spam, p_subject_ham = self.spam_ham_subject_prob(email_subject)
         p_body_spam,    p_body_ham    = self.spam_ham_body_prob(email_body)
@@ -46,9 +45,8 @@ class EmailAnalyzer:
         '''
         p_spam = 1.0
         p_ham  = 1.0
-
         voc_data = self.load_dict()
-
+        
 
         # Parse the text to compute the probability
         for word in body:
