@@ -177,3 +177,12 @@ class RENEGE:
     ###########################################
     #             CUSTOM FUNCTION             #
     ###########################################
+
+    # def trust():
+    #     if 
+
+    # def trust_one(time, NHam, NHum, NSpam):
+    #     return (time*NHam)/(time*(NHum+NSpam))
+
+    # def trust_two(self):
+    #     return self.crud.groups_data

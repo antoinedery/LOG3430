@@ -61,7 +61,7 @@ class TestEmailAnalyzer(unittest.TestCase):
         self, mock_spam_ham_subject_prob, mock_spam_ham_body_prob, mock_clean_text
     ):
         mock_spam_ham_subject_prob.return_value = self.spam_ham_subject_prob_true
-        mock_spam_ham_body_prob.return_value = self.spam_ham_subject_prob_true
+        mock_spam_ham_body_prob.return_value = self.spam_ham_body_prob_true
 
         emailAnalyser = EmailAnalyzer()
 
