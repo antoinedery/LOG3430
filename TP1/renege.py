@@ -178,11 +178,49 @@ class RENEGE:
     #             CUSTOM FUNCTION             #
     ###########################################
 
-    # def trust():
-    #     if 
+    # PB: où trouver l'id ou le name de l'utilisateur ?
 
-    # def trust_one(time, NHam, NHum, NSpam):
-    #     return (time*NHam)/(time*(NHum+NSpam))
+    def compute_trust(self):
+        user_id = "1"  # hardcodé, il faut trouver le bon id
 
-    # def trust_two(self):
-    #     return self.crud.groups_data
+        trust_one = self.compute_trust_one(user_id)
+        trust_two = self.compute_trust_two(user_id)
+
+        trust = (0.6 * trust_one + 0.4 * trust_two) / 2
+
+        # est-ce qu'on met un elsif ou 2 ifs qui se suivent ?
+        if trust_two < 60:
+            trust = trust_two
+        elif trust_one > 100:
+            trust = 100
+
+        if 0 <= trust <= 100:
+            return trust
+        else:
+            return False
+
+    def compute_trust_one(self, user_id):
+        date_of_last_seen_message = self.crud.get_user_data(user_id, "Date_of_last_seen_message")
+        date_of_last_seen_message_unix = self.crud.convert_to_unix(date_of_last_seen_message)
+
+        date_of_first_seen_message = self.crud.get_user_data(user_id, "Date_of_first_seen_message")
+        date_of_first_seen_message_unix = self.crud.convert_to_unix(date_of_first_seen_message)
+
+        ham_n = self.crud.get_user_data(user_id, "HamN")
+        spam_n = self.crud.get_user_data(user_id, "SpamN")
+
+        return (date_of_last_seen_message_unix * ham_n) / (date_of_first_seen_message_unix * (ham_n + spam_n))
+
+    def compute_trust_two(self, user_id):
+        user_groups_names = self.crud.get_user_data(user_id, "Groups")
+
+        trust_sum = 0
+        number_of_groups = 0
+        for group_name in user_groups_names:
+            group_id = self.crud.get_group_id(group_name)
+            group_trust = self.crud.get_groups_data(group_id, "Trust")
+            trust_sum += group_trust
+            number_of_groups = number_of_groups + 1
+
+        return trust_sum / number_of_groups
+
