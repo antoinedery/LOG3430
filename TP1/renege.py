@@ -180,9 +180,16 @@ class RENEGE:
 
     # PB: où trouver l'id ou le name de l'utilisateur ?
 
-    def compute_trust(self):
-        user_id = "1"  # hardcodé, il faut trouver le bon id
+    def print_trust_of_users(self): 
+        for user_id in self.crud.users_data.keys():
+            print(
+                self.crud.get_user_data(user_id, "name")  + " : " +
+                self.compute_trust(user_id) + "\n"
+                )
 
+
+
+    def compute_trust(self, user_id):
         trust_one = self.compute_trust_one(user_id)
         trust_two = self.compute_trust_two(user_id)
 
@@ -196,8 +203,7 @@ class RENEGE:
 
         if 0 <= trust <= 100:
             return trust
-        else:
-            return False
+        return False
 
     def compute_trust_one(self, user_id):
         date_of_last_seen_message = self.crud.get_user_data(user_id, "Date_of_last_seen_message")

@@ -56,3 +56,6 @@ if __name__ == "__main__":
 
     #3. Evaluation de performance du modele avec la fonction evaluate()
     evaluate()
+
+    #4. Question 2 du laboratoire
+    renege.print_trust_of_users()
