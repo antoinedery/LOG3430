@@ -1,4 +1,4 @@
 source ./init.sh
 
-coverage run -m --source=. --branch unittest
+coverage run -m unittest
 coverage report -m

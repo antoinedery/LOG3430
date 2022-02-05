@@ -397,6 +397,8 @@ class TestCRUD(unittest.TestCase):
     ###########################################
     #               CUSTOM TEST               #
     ###########################################
+
+    # Test pour un nom invalide dans la fonction update_users
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_name(
@@ -407,6 +409,7 @@ class TestCRUD(unittest.TestCase):
         crud = CRUD()
         self.assertFalse(crud.update_users("1", "name", "abcdef"))
 
+    # Test pour un date_of_last_seen_message invalide dans la fonction update_users
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_Date_of_last_seen_message(
@@ -418,6 +421,7 @@ class TestCRUD(unittest.TestCase):
         self.assertFalse(crud.update_users(
             "1", "Date_of_last_seen_message", "1900-01-01"))
 
+    # Test pour une date_of_first_seen_message invalide dans la fonction update_users
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_Date_of_first_seen_message(
@@ -429,6 +433,7 @@ class TestCRUD(unittest.TestCase):
         self.assertFalse(crud.update_users(
             "1", "Date_of_first_seen_message", "2022-12-31"))
 
+    # Test pour une valeur de trust invalide dans la fonction update_users
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_Trust(
@@ -439,6 +444,7 @@ class TestCRUD(unittest.TestCase):
         crud = CRUD()
         self.assertFalse(crud.update_users("1", "Trust", 101))
 
+    # Test pour une valeur de SpamN invalide dans la fonction update_users
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_SpamN(
@@ -449,6 +455,7 @@ class TestCRUD(unittest.TestCase):
         crud = CRUD()
         self.assertFalse(crud.update_users("1", "SpamN", -1))
 
+    # Test pour une liste de groupes invalide dans la fonction update_users
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_GroupList(

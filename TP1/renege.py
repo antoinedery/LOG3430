@@ -28,7 +28,6 @@ class RENEGE:
             raise e
             return False
 
-
     def process_email(self, new_emails):
         '''
         Description: fonction pour analyser chaque nouvel e-mail dans le 
@@ -41,15 +40,15 @@ class RENEGE:
         i = 0
         email_count = len(emails["dataset"])
         # Load emails
-        for email in emails["dataset"]:    
+        for email in emails["dataset"]:
             i += 1
             print("\rEmail " + str(i) + "/" + str(email_count), end="")
 
-            data    = email["mail"]
+            data = email["mail"]
             subject = data["Subject"]
-            name    = data["From"]
-            date    = data["Date"]            
-            body    = data["Body"]
+            name = data["From"]
+            date = data["Date"]
+            body = data["Body"]
             is_spam = data["Spam"]
 
             # Get registered data
@@ -61,7 +60,7 @@ class RENEGE:
                 if not self.crud.add_new_user(name, date):
                     return False
 
-                user_id = self.crud.get_user_id(name) 
+                user_id = self.crud.get_user_id(name)
 
             # Update user's emails info
             if is_spam == "true":
@@ -81,7 +80,7 @@ class RENEGE:
 
                 except RuntimeError:
                     return False
-        
+
         print("\n")
 
         return True
@@ -93,7 +92,7 @@ class RENEGE:
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
 
-        # Update last / first seen date 
+        # Update last / first seen date
         new_date = self.crud.convert_to_unix(new_user_date)
         if new_date > self.crud.get_user_data(user_id, "Date_of_last_seen_message"):
             if not self.crud.update_users(user_id, "Date_of_last_seen_message", new_user_date):
@@ -102,9 +101,9 @@ class RENEGE:
             if not self.crud.update_users(user_id, "Date_of_first_seen_message", new_user_date):
                 return False
 
-        # Update trust score 
+        # Update trust score
         spam_n = self.crud.get_user_data(user_id, "SpamN") + new_email_spam
-        ham_n  = self.crud.get_user_data(user_id, "HamN") + new_email_ham
+        ham_n = self.crud.get_user_data(user_id, "HamN") + new_email_ham
 
         trust_lvl = 50
         if (spam_n + ham_n) != 0:
@@ -125,34 +124,33 @@ class RENEGE:
         Description: fonction pour modifier l'information de groupe dans lequel 
         l'utilisateur est present (trust level, etc).
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
-        '''        
+        '''
         try:
             # Get list of users and update it
             users_list = self.crud.get_groups_data(group_id, "List_of_members")
-            user_name  = self.crud.get_user_data(user_id, "name")
+            user_name = self.crud.get_user_data(user_id, "name")
             if user_name not in users_list:
                 users_list.append(user_name)
 
             # Get data for trust update
             user_count = len(users_list)
-            trust_lvl  = 0      
+            trust_lvl = 0
 
             # Compute group's trust
             for user in users_list:
                 curr_user_id = self.crud.get_user_id(user)
-                trust_lvl   += self.crud.get_user_data(curr_user_id, "Trust")
+                trust_lvl += self.crud.get_user_data(curr_user_id, "Trust")
 
             if(trust_lvl > 100):
-                trust_lvl = 100 
-            
+                trust_lvl = 100
+
             # Update the group with the new trust level and the new member list
-            if self.crud.update_groups(group_id, "Trust", trust_lvl):     
+            if self.crud.update_groups(group_id, "Trust", trust_lvl):
                 return self.crud.update_groups(group_id, 'List_of_members', users_list)
 
             return False
         except RuntimeError:
             return False
-
 
     def get_user_email_list(self):
         '''
@@ -178,55 +176,89 @@ class RENEGE:
     #             CUSTOM FUNCTION             #
     ###########################################
 
-    # PB: où trouver l'id ou le name de l'utilisateur ?
-
-    def print_trust_of_users(self): 
+    # fonction imprime les emails des utilisateurs avec leur confiance
+    # permet de tester notre implémentation en affichant dans la console
+    def print_trust_of_users(self):
+        
+        # parcourt chaque utilisateur
         for user_id in self.crud.users_data.keys():
+            # imprime les emails des utilisateurs avec leur confiance
             print(
-                self.crud.get_user_data(user_id, "name")  + " : " +
-                self.compute_trust(user_id) + "\n"
-                )
+                self.crud.get_user_data(str(user_id), "name") + " : " +
+                str(self.compute_trust(user_id))
+            )
 
 
-
+    # calcule la trust totale d'un utilisateur
     def compute_trust(self, user_id):
+
+        # calcule la trust 1
         trust_one = self.compute_trust_one(user_id)
+        # calcule la trust 2
         trust_two = self.compute_trust_two(user_id)
 
+        # calcule la trust totale
         trust = (0.6 * trust_one + 0.4 * trust_two) / 2
 
-        # est-ce qu'on met un elsif ou 2 ifs qui se suivent ?
         if trust_two < 60:
             trust = trust_two
         elif trust_one > 100:
             trust = 100
 
         if 0 <= trust <= 100:
+            # retourne la trust si elle répond aux critères
             return trust
+
+        # retourne faux si la trust calculée ne répond pas aux critères
         return False
 
+
+    # fonction qui calcule et retourne la trust 1 d'un utilisateur
     def compute_trust_one(self, user_id):
-        date_of_last_seen_message = self.crud.get_user_data(user_id, "Date_of_last_seen_message")
-        date_of_last_seen_message_unix = self.crud.convert_to_unix(date_of_last_seen_message)
 
-        date_of_first_seen_message = self.crud.get_user_data(user_id, "Date_of_first_seen_message")
-        date_of_first_seen_message_unix = self.crud.convert_to_unix(date_of_first_seen_message)
+        # recupere la date du dernier message vu
+        date_of_last_seen_message = self.crud.get_user_data(
+            user_id, "Date_of_last_seen_message")
+        # convertit la date en unix
+        date_of_last_seen_message_unix = self.crud.convert_to_unix(
+            date_of_last_seen_message)
 
+        # recupere la date du premier message vu
+        date_of_first_seen_message = self.crud.get_user_data(
+            user_id, "Date_of_first_seen_message")
+        # convertit la date en unix
+        date_of_first_seen_message_unix = self.crud.convert_to_unix(
+            date_of_first_seen_message)
+
+        # retourne le nombre de mails non-spam
         ham_n = self.crud.get_user_data(user_id, "HamN")
+        # retourne le nombre de mails spam
         spam_n = self.crud.get_user_data(user_id, "SpamN")
 
+        # calcule et retourne la trust 1 selon la formule donnée dans l'énoncé
+        print((date_of_last_seen_message_unix * ham_n) / (date_of_first_seen_message_unix * (ham_n + spam_n)))
         return (date_of_last_seen_message_unix * ham_n) / (date_of_first_seen_message_unix * (ham_n + spam_n))
 
+
+    # fonction qui calcule et retourne la trust 2 pour un utilisateur
     def compute_trust_two(self, user_id):
+        # retourne la liste des noms des groupes auxquels appartient l'utilisateur
         user_groups_names = self.crud.get_user_data(user_id, "Groups")
 
+        # somme des trusts des groupes de l'utilisateur
         trust_sum = 0
+        # nombre de groupes auxquels appartient l'utilisateur
         number_of_groups = 0
+        # parcourt chaque groupe de l'utilisateur
         for group_name in user_groups_names:
+
+            # recupere l'id du groupe à partir de son nom
             group_id = self.crud.get_group_id(group_name)
+            # recupere la trust du groupe
             group_trust = self.crud.get_groups_data(group_id, "Trust")
+
             trust_sum += group_trust
             number_of_groups = number_of_groups + 1
 
+        # calcule et retourne la trust 2
         return trust_sum / number_of_groups
-

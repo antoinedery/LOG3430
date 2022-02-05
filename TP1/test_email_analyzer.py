@@ -96,6 +96,8 @@ class TestEmailAnalyzer(unittest.TestCase):
     ###########################################
     #               CUSTOM TEST               #
     ###########################################
+
+    # Test pout vérifier que la fonction spam_ham_body_prob retourne la bonne valeur quand les mots du corps ne sont pas dans la liste de vocabulaire
     @patch("email_analyzer.EmailAnalyzer.load_dict")
     def test_spam_ham_body_prob_Returns_expected_probability_when_word_is_not_in_voc_data(self, mock_load_dict):
         mock_load_dict.return_value = self.vocab
@@ -103,6 +105,7 @@ class TestEmailAnalyzer(unittest.TestCase):
 
         self.assertEqual(emailAnalyser.spam_ham_body_prob(["body"]), (self.spam_ham_body_prob_expected_word_not_in_vocab))
 
+    # Test pout vérifier que la fonction spam_ham_subject_prob retourne la bonne valeur quand les mots du titre ne sont pas dans la liste de vocabulaire
     @patch("email_analyzer.EmailAnalyzer.load_dict")
     def test_spam_ham_subject_prob_Returns_expected_probability_when_word_is_not_in_voc_data(self, mock_load_dict):
         mock_load_dict.return_value = self.vocab
