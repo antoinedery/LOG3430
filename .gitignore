@@ -1,3 +1,5 @@
 __pycache__/
+__.idea__/
 *.coverage
 *.DS_STORE
+*.coverage
