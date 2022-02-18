@@ -7,54 +7,54 @@ def verifyIsSpamDNF(p, h, u, g):
 def getTable():
     counter = 0
     table = {}
-    for p in [False, True]:
-        for h in [False, True]:
-            for u in [False, True]:
-                for g in [False, True]:
-                    table[counter] = [p,h,u,g, verifyIsSpam(p,h,u,g)]
+    for p in [0, 1]:
+        for h in [0, 1]:
+            for u in [0, 1]:
+                for g in [0, 1]:
+                    rtn = 0
+                    if(verifyIsSpam(p,h,u,g)): rtn = 1
+                    table[(p,h,u,g, rtn)] = counter
                     counter += 1
     return table
 
-def get_major_clause_tests(table):
+def getCACC(table):
+    print('CACC : ')
+    clauses = ['p', 'h', 'u', 'g']
+    cPerRow = {}
+    for cIdx, clause in enumerate(clauses):
+        for key in table:
+            l = list(key)
+            l[cIdx] = not l[cIdx] 
+            l[4] = not l[4]  
+            t = tuple(l)
+            if t in table:
+                cPerRow[clause] = set()
+                cPerRow[clause].add((table[key], table[t]))
+                break
+    return cPerRow
+
+def getGICC(table):
+    print('GICC : ')
     clauses = ['p', 'h', 'u', 'g']
     cPerRow = {}
     for elem in clauses:
         cPerRow[elem] = set()
-
-    for cIdx, clause in enumerate(clauses):
-        for i, row in enumerate(table.values()):
-            tmpRow = row.copy()
-            tmpRow[cIdx] = not tmpRow[cIdx] # inverse le input de la clause majeure
-            tmpRow[4] = not tmpRow[4]       # inverse le output du résultat
-            for j, nRow in enumerate(table.values()):
-                if nRow == tmpRow:
-                    cPerRow[clause].add(i)
-                    cPerRow[clause].add(j)
-                    break
+    for i, clause in enumerate(clauses):
+        foundTests = False
+        nPredicate = set() 
+        for row in table:
+            if row[4] not in nPredicate :
+                cl = not row[i] 
+                for nRow in table:
+                    if((cl == nRow[i]) & (row[4] == nRow[4])):
+                        cPerRow[clause].add((table[row], table[nRow]))
+                        nPredicate.add(row[4])
+                        if len(nPredicate) >= 2: 
+                            foundTests = True
+                        break
+            if foundTests:
+                break
     return cPerRow
-
-def apply_cacc(tests, table):
-    pair_found = False
-    retained_tests = {}
-    for idx, key in enumerate(tests):
-        tList = tests[key]
-        for i in tList:
-            fRow = table[i].copy()
-            nC = not fRow[idx]
-            nP = not fRow[4]
-            for j in tList:
-                sRow = table[j]
-                if((nC == sRow[idx]) & (nP == sRow[4])):
-                    retained_tests[key] = set()
-                    retained_tests[key].add(i)
-                    retained_tests[key].add(j)
-                    pair_found = True
-                    break
-            if(pair_found):
-                pair_found = False
-                break      
-
-    return retained_tests
 
 def p_Table(table):
     for key in table:
@@ -66,42 +66,23 @@ def p_rows(tests):
         output = str(key) + ' => '
         tList = tests[key]
         for idx, row in enumerate(tList):
-            output += 'd' + str(row)
+            output += 'd' + str(row[0]) + ', d' + str(row[1])
             if(idx < (len(tList) - 1)):
                 output += ', '
         print(output)
     print('\n')
 
+###############################################
 
 table = getTable()
 p_Table(table)
 
 ################### CACC ######################
 
-tests = get_major_clause_tests(table)
-valid_pairs = apply_cacc(tests, table)
-print('CACC : ')
-p_rows(valid_pairs)
-
+testsCACC = getCACC(table)
+p_rows(testsCACC)
 
 ################### GICC ######################
 
-def getGICC():
-    clauses = ['p', 'h', 'u', 'g']
-    cPerRow = {}
-    for elem in clauses:
-        cPerRow[elem] = set()
-
-    for cIdx, clause in enumerate(clauses):
-        for i, row in enumerate(table.values()):
-            tmpRow = row.copy()
-            tmpRow[cIdx] = not tmpRow[cIdx] 
-            if(mapcontaine(tmpro[4]))
-            else:
-                for j, nRow in enumerate(table.values()):
-                    if nRow == tmpRow:
-                        cPerRow[clause].add(i)
-                        cPerRow[clause].add(j)
-                        mapPush(false)
-                        break
-    return cPerRow
+testsGICC = getGICC(table)
+p_rows(testsGICC)
