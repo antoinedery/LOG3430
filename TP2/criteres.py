@@ -75,19 +75,27 @@ def getIC(table):
 	isValid = False
 	cPerRow = set()
 	tmpRow = getHighestRow(table)
-	cPerRow.add(table[tmpRow])
+	cPerRow.add(tmpRow)
 	for i in range(4):
 		if tmpRow[i] == 0:
 			for elem in table:
 				if elem[i] == 1:
-					cPerRow.add(table[elem])
+					cPerRow.add(elem)
 					tmpRow = (tmpRow or elem) * 1
 					if rowIsValid(tmpRow) == True:
 						isValid = True
 						break
 		if isValid == True:
 			break
-	return cPerRow
+
+	dic = {}
+	
+	for elem in cPerRow:
+		dic[table[elem]] = set()
+		for i, j in enumerate(elem):
+			if j == 1: dic[table[elem]].add(implicant[i])
+
+	return dic
 
 
 
@@ -123,20 +131,29 @@ def p_tests(tests):
 	print('\n')
 
 def p_implicant_tests(tests):
-	output = '=> '
-	for i, key in enumerate(tests):
-		output += 'd' + str(key)
-		if(i < (len(tests) - 1)):
-			output += ', '
-	print(output)
+	for key, value in tests.items():
+		output = ''
+		for i, impl in enumerate(value):
+			output += impl 
+			if(i < (len(value) - 1)):
+				output += " ; "
+		print(output + ' => d' + str(key) )
 	print('\n')
 
 ###############################################
 
 table = getTable()
-print("Table: ")
+print('\n')
+print("Table: \n")
+print(" p  h  u  g  z ")
+print(" ............. ")
 p_Table(table[0])
-print("Implicants: ")
+print("Implicants: \n")
+print("    P          ")
+print(" P  U     -    ")
+print(" H  -  -  H  - ")
+print(" U  G  P  G  U ")
+print(" ............. ")
 p_Table(table[1])
 
 ################### CACC ######################
