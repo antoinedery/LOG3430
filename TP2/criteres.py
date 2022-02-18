@@ -18,16 +18,15 @@ def getTable():
 			for u in [0, 1]:
 				for g in [0, 1]:
 					table1[(p,h,u,g, verifyIsSpam(p,h,u,g)*1)] = counter
-					table2[(
+					val = (
 							(p and h and u) * 1, 
 							(p and u and not g) * 1,
 							(not p) * 1,
 							(not h and g) * 1,
 							(not u) * 1
-					)] = counter
+					)
+					if val not in table2: table2[val] = counter
 					counter += 1
-
-
 	return [table1, table2]
 
 def getCACC(table):
