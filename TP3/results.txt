@@ -1,0 +1,79 @@
+True True 1 True
+Accuracy:  0.61   
+Precision:  0.0   
+Recall:  0.0      
+
+True False 1 False
+Accuracy:  0.09   
+Precision:  0.1   
+Recall:  0.17     
+
+False True 1 False
+Accuracy:  0.62
+Precision:  1.0
+Recall:  0.03  
+
+False False 1 True
+Accuracy:  0.64
+Precision:  0.52
+Recall:  0.75
+
+True True 2 False
+Accuracy:  0.61
+Precision:  0.0
+Recall:  0.0
+
+True False 2 True
+Accuracy:  0.12
+Precision:  0.04
+Recall:  0.05
+
+False True 2 True
+Accuracy:  0.62
+Precision:  1.0
+Recall:  0.03
+
+False False 2 False
+Accuracy:  0.47
+Precision:  0.41
+Recall:  0.86
+
+True True 3 True
+Accuracy:  0.61
+Precision:  0.0
+Recall:  0.0
+
+True False 3 False
+Accuracy:  0.14
+Precision:  0.04
+Recall:  0.05
+
+False True 3 False
+Accuracy:  0.62
+Precision:  1.0
+Recall:  0.03
+
+False False 3 True
+Accuracy:  0.36
+Precision:  0.37
+Recall:  0.91
+  
+True True 4 True
+Accuracy:  0.0  
+Precision:  0.0   
+Recall:  0.0 
+
+True False 4 False
+Accuracy:  0.2    
+Precision:  0.03  
+Recall:  0.04     
+
+False True 4 False
+Accuracy:  0.62
+Precision:  1.0
+Recall:  0.03
+
+False False 4 True
+Accuracy:  0.36
+Precision:  0.37
+Recall:  0.94

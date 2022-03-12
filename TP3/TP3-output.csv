@@ -1,0 +1,23 @@
+# ACTS Test Suite Generation: Sat Mar 12 11:00:42 EST 2022
+#  '*' represents don't care value 
+# Degree of interaction coverage: 3
+# Number of parameters: 4
+# Maximum number of values per parameter: 4
+# Number of configurations: 16
+log_calculate,log_combine,frequency,stemming_disable
+true,true,1,true
+true,false,1,false
+false,true,1,false
+false,false,1,true
+true,true,2,false
+true,false,2,true
+false,true,2,true
+false,false,2,false
+true,true,3,true
+true,false,3,false
+false,true,3,false
+false,false,3,true
+true,true,4,true
+true,false,4,false
+false,true,4,false
+false,false,4,true

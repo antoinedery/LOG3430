@@ -15,20 +15,20 @@ class RENEGE:
         self.crud = CRUD()
         self.e_mail = EmailAnalyzer()
 
-    def classify_emails(self):
+    def classify_emails(self, log_calculate, log_combine, stemming_disable):
         '''
         Description: fonction pour commencer l'analyse des e-mails.
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         try:
-            self.process_email(self.get_email())
+            self.process_email(log_calculate, log_combine, stemming_disable)
             return True
         except Exception as e:
             print("Error!", e.__class__, "occurred.")
             raise e
             return False
 
-    def process_email(self, new_emails):
+    def process_email(self, log_calculate, log_combine, stemming_disable):
         '''
         Description: fonction pour analyser chaque nouvel e-mail dans le 
         dictionnaire. Elle gere l'ajout des nouveaux utilisateurs et/ou modification
@@ -36,20 +36,21 @@ class RENEGE:
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         emails = self.get_email()
-        print("Processing emails")
+        #print("Processing emails")
         i = 0
         email_count = len(emails["dataset"])
         # Load emails
         for email in emails["dataset"]:
             i += 1
-            print("\rEmail " + str(i) + "/" + str(email_count), end="")
+            #print("\rEmail " + str(i) + "/" + str(email_count), end="")
 
             data = email["mail"]
             subject = data["Subject"]
             name = data["From"]
             date = data["Date"]
             body = data["Body"]
-            is_spam = data["Spam"]
+            # is_spam = data["Spam"]
+            is_spam = self.e_mail.is_spam(subject, body, log_calculate, log_combine, stemming_disable)
 
             # Get registered data
             user_id = -1
