@@ -71,7 +71,6 @@ class TestCRUD_MADUM(unittest.TestCase):
     @patch("crud.CRUD.modify_users_file")
     def test_d7(self, mock_modify_users_file, mock_modify_groups_file):
         crud = CRUD()
-        # crud.add_new_user("user@email.ca", "2022-03-24")
 
         crud.remove_group(1)
         crud.add_new_group("", 0, ["user@email.ca"])
