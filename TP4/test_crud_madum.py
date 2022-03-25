@@ -281,8 +281,6 @@ class TestCRUD_MADUM(unittest.TestCase):
         crud.remove_group(1)
         
         self.assertEqual(crud.get_groups_data(1, "name"), False)
-        self.assertEqual(crud.get_groups_data(1, "List_of_members"), False)
-
 
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.modify_users_file")
