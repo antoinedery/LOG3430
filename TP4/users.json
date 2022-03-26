@@ -1,1 +1,11 @@
-{"0": {"name": "user@email.ca", "Trust": 50, "SpamN": 0, "HamN": 0, "Date_of_first_seen_message": 1648080000.0, "Date_of_last_seen_message": 1648080000.0, "Groups": ["default"]}}
+{
+    "0": {
+            "name": "user@email.ca", 
+            "Trust": 50, 
+            "SpamN": 0, 
+            "HamN": 0, 
+            "Date_of_first_seen_message": 1648080000.0, 
+            "Date_of_last_seen_message": 1648080000.0, 
+            "Groups": ["name0", "name1", "name2", "name3"]
+        }
+}
