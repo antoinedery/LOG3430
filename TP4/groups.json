@@ -1,5 +1,5 @@
 {
-    "0": {"name": "name0", "Trust": 0, "List_of_members": ["user@email.ca"]},
+    "0": {"name": "default", "Trust": 0, "List_of_members": ["user@email.ca"]},
     "1": {"name": "name1", "Trust": 25, "List_of_members": ["user@email.ca"]}, 
     "2": {"name": "name2", "Trust": 50, "List_of_members": ["user@email.ca"]}, 
     "3": {"name": "name3", "Trust": 100, "List_of_members": ["user@email.ca"]}
