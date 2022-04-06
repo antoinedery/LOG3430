@@ -10,8 +10,13 @@ class RENEGE:
     """Classe pour realiser le filtrage du spam en utilisant le fichier vocabulary.json et
     les classes CRUD et EmailAnalyzer"""
 
-    def __init__(self):
-        self.email_file = "train_set.json"
+    # def __init__(self):
+    #     self.email_file = "train_set.json"
+    #     self.crud = CRUD()
+    #     self.e_mail = EmailAnalyzer()
+
+    def __init__(self, filename):
+        self.email_file = "./JsonFiles/" + filename + ".json"
         self.crud = CRUD()
         self.e_mail = EmailAnalyzer()
 
@@ -37,13 +42,13 @@ class RENEGE:
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         emails = self.get_email()
-        print("Processing emails")
+        # print("Processing emails")
         i = 0
         email_count = len(emails["dataset"])
         # Load emails
         for email in emails["dataset"]:    
             i += 1
-            print("\rEmail " + str(i) + "/" + str(email_count), end="")
+            # print("\rEmail " + str(i) + "/" + str(email_count), end="")
 
             data    = email["mail"]
             subject = data["Subject"]
