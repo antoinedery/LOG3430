@@ -8,7 +8,7 @@ from vocabulary_creator import VocabularyCreator
 from renege import RENEGE
 
 class TestMain(unittest.TestCase):
-    def cleaner(fileName):
+    def cleaner(self, fileName):
         with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
             emails = json.load(email_file)
 
@@ -20,7 +20,7 @@ class TestMain(unittest.TestCase):
         with open("./JsonFiles/"+ fileName + "_clean.json", "w") as outfile:
             json.dump(emails, outfile, indent=2)
 
-    def shuffle(fileName):
+    def shuffle(self, fileName):
         with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
             emails = json.load(email_file)
 
@@ -37,7 +37,7 @@ class TestMain(unittest.TestCase):
         with open("./JsonFiles/"+ fileName + "_shuffle.json", "w") as outfile:
             json.dump(emails, outfile, indent=2)
 
-    def triplage(fileName):
+    def triplage(self, fileName):
         with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
             emails = json.load(email_file)
 
@@ -48,7 +48,7 @@ class TestMain(unittest.TestCase):
         with open("./JsonFiles/"+ fileName + "_triplicate.json", "w") as outfile:
             json.dump(emails, outfile, indent=2)
 
-    def duplicate(fileName) :
+    def duplicate(self, fileName) :
         with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
             emails = json.load(email_file)
 
@@ -60,14 +60,13 @@ class TestMain(unittest.TestCase):
         with open("./JsonFiles/"+ fileName + "_words.json", "w") as outfile:
             json.dump(emails, outfile, indent=2)
 
-    # def setUp(self):
-        # fileName = ["test", "train"]
-        # for file in fileName:
-            # print(file)
-            # self.cleaner("test")
-            # self.shuffle(file)
-            # self.triplage(file)
-            # self.duplicate(file)
+    def setUp(self):
+        fileName = ["test", "train"]
+        for file in fileName:
+            self.cleaner(file)
+            self.shuffle(file)
+            self.triplage(file)
+            self.duplicate(file)
 
     def test_test_clean(self):
         print("")
