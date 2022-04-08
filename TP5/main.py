@@ -7,57 +7,57 @@ from email_analyzer import EmailAnalyzer
 from text_cleaner import TextCleaning
 
 
-def cleaner(fileName):
-    with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
-        emails = json.load(email_file)
+# def cleaner(fileName):
+#     with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
+#         emails = json.load(email_file)
 
-    textCleaner = TextCleaning()
+#     textCleaner = TextCleaning()
 
-    for index, e_mail in enumerate(emails["dataset"]):
-        emails["dataset"][index]["mail"]["Body"] = ' '.join(textCleaner.clean_text(e_mail["mail"]["Body"]))
+#     for index, e_mail in enumerate(emails["dataset"]):
+#         emails["dataset"][index]["mail"]["Body"] = ' '.join(textCleaner.clean_text(e_mail["mail"]["Body"]))
 
-    with open("./JsonFiles/"+ fileName + "_clean.json", "w") as outfile:
-        json.dump(emails, outfile, indent=2)
+#     with open("./JsonFiles/"+ fileName + "_clean.json", "w") as outfile:
+#         json.dump(emails, outfile, indent=2)
 
-def shuffle(fileName):
-    with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
-        emails = json.load(email_file)
+# def shuffle(fileName):
+#     with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
+#         emails = json.load(email_file)
 
-    for index, e_mail in enumerate(emails["dataset"]):
-        bodyArray = e_mail["mail"]["Body"].split(' ')
-        for i in range(9) :
-            var1 = random.randint(0, len(bodyArray) - 1)
-            var2 = random.randint(0, len(bodyArray) - 1)
-            tmp = bodyArray[var1] 
-            bodyArray[var1] = bodyArray[var2]
-            bodyArray[var2] = tmp
-        emails["dataset"][index]["mail"]["Body"] = ' '.join(bodyArray)
+#     for index, e_mail in enumerate(emails["dataset"]):
+#         bodyArray = e_mail["mail"]["Body"].split(' ')
+#         for i in range(9) :
+#             var1 = random.randint(0, len(bodyArray) - 1)
+#             var2 = random.randint(0, len(bodyArray) - 1)
+#             tmp = bodyArray[var1] 
+#             bodyArray[var1] = bodyArray[var2]
+#             bodyArray[var2] = tmp
+#         emails["dataset"][index]["mail"]["Body"] = ' '.join(bodyArray)
 
-    with open("./JsonFiles/"+ fileName + "_shuffle.json", "w") as outfile:
-        json.dump(emails, outfile, indent=2)
+#     with open("./JsonFiles/"+ fileName + "_shuffle.json", "w") as outfile:
+#         json.dump(emails, outfile, indent=2)
 
-def triplage(fileName):
-    with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
-        emails = json.load(email_file)
+# def triplage(fileName):
+#     with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
+#         emails = json.load(email_file)
 
-    tmp = copy.deepcopy(emails)
-    emails["dataset"] += emails["dataset"]
-    emails["dataset"] += tmp["dataset"]
+#     tmp = copy.deepcopy(emails)
+#     emails["dataset"] += emails["dataset"]
+#     emails["dataset"] += tmp["dataset"]
 
-    with open("./JsonFiles/"+ fileName + "_triplicate.json", "w") as outfile:
-        json.dump(emails, outfile, indent=2)
+#     with open("./JsonFiles/"+ fileName + "_triplicate.json", "w") as outfile:
+#         json.dump(emails, outfile, indent=2)
 
-def duplicate(fileName) :
-    with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
-        emails = json.load(email_file)
+# def duplicate(fileName) :
+#     with open("./JsonFiles/"+ fileName + "_set.json") as email_file:
+#         emails = json.load(email_file)
 
-    for index, e_mail in enumerate(emails["dataset"]):
-        body = e_mail["mail"]["Body"]
-        bodyArray = body + body
-        emails["dataset"][index]["mail"]["Body"] = bodyArray
+#     for index, e_mail in enumerate(emails["dataset"]):
+#         body = e_mail["mail"]["Body"]
+#         bodyArray = body + body
+#         emails["dataset"][index]["mail"]["Body"] = bodyArray
     
-    with open("./JsonFiles/"+ fileName + "_words.json", "w") as outfile:
-        json.dump(emails, outfile, indent=2)
+#     with open("./JsonFiles/"+ fileName + "_words.json", "w") as outfile:
+#         json.dump(emails, outfile, indent=2)
 
 
 def evaluate(fileName):
@@ -73,10 +73,10 @@ def evaluate(fileName):
     i = 0
     email_count = len(new_emails["dataset"])
 
-    # print("Evaluating emails ")
+    print("Evaluating emails ")
     for e_mail in new_emails["dataset"]:
         i += 1
-        # print("\rEmail " + str(i) + "/" + str(email_count), end="")
+        print("\rEmail " + str(i) + "/" + str(email_count), end="")
 
         new_email = e_mail["mail"]
         subject = new_email["Subject"]
@@ -97,10 +97,10 @@ def evaluate(fileName):
     # print("\nAccuracy: ", round((tp + tn) / (tp + tn + fp + fn), 2))
     precision = round(tp / (tp + fp), 2)
     recall = round(tp / (tp + fn), 2)
-    print("Precision: ", precision)
-    print("Recall: ", recall)
-    print("F1 score: ", f1(precision, recall))
-    return True
+    #print("Precision: ", precision)
+    #print("Recall: ", recall)
+    #print("F1 score: ", f1(precision, recall))
+    return f1(precision, recall)
 
 def runApp(file1, file2):
     vocab = VocabularyCreator(file1)
@@ -126,11 +126,11 @@ if __name__ == "__main__":
     # evaluate("test_set")
 
     fileName = ["test", "train"]
-    for file in fileName :
-        cleaner(file)
-        shuffle(file)
-        triplage(file)
-        duplicate(file)
+    # for file in fileName :
+    #     cleaner(file)
+    #     shuffle(file)
+    #     triplage(file)
+    #     duplicate(file)
     
     fileType = ["clean", "shuffle", "words", "triplicate"]
     for file in fileName :
